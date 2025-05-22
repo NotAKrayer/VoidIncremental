@@ -9,7 +9,6 @@
     const camera = {
       x: 0,
       y: 0,
-      scale: 1,  // Fixed value
       isDragging: false,
       lastX: 0,
       lastY: 0
@@ -119,43 +118,43 @@
       }
     };
 
-    // Object creation function remains unchanged.
-    function createObject(x, y, content = null) {
-      const obj = document.createElement('div');
-      obj.className = 'obj';
-      obj.innerHTML = content || `
-        <button>Object</button>
-        <div style="font-size: 10px; color: #fff; margin-top: 5px">${x},${y}</div>
-      `;
-      obj.dataset.worldX = x;
-      obj.dataset.worldY = y;
-      document.body.appendChild(obj);
-      objects.set(obj, { x, y });
-      updateObjectPosition(obj);
-      return obj;
-    }
+// Object creation function remains unchanged.
+function createObject(x, y, content = null) {
+  const obj = document.createElement('div');
+  obj.className = 'obj';
+  obj.innerHTML = content || `
+    <button>Object</button>
+    <div style="font-size: 10px; color: #fff; margin-top: 5px">${x},${y}</div>
+  `;
+  obj.dataset.worldX = x;
+  obj.dataset.worldY = y;
+  document.body.appendChild(obj);
+  objects.set(obj, { x, y });
+  updateObjectPosition(obj);
+  return obj;
+}
 
-    // Create an initial welcome panel.
-    const welcomePanel = createObject(1000, 500, `
-      <div style="width: 400px; padding: 20px; border-radius: 8px; color: white;">
-        <h2 style="margin: 0 0 15px 0; text-align: center;">Добро пожаловать!</h2>
-        <p style="font-size: 14px;">
-          Это стартовая панель. Вы можете перетаскивать пространство ЛКМ или одним пальцем.
-        </p>
-      </div>
-    `);
+// Create an initial welcome panel.
+const welcomePanel = createObject(1000, 500, `
+  <div style="width: 400px; padding: 20px; border-radius: 8px; color: white;">
+    <h2 style="margin: 0 0 15px 0; text-align: center;">Добро пожаловать!</h2>
+    <p style="font-size: 14px;">
+      Это стартовая панель. Вы можете перетаскивать пространство ЛКМ или одним пальцем.
+    </p>
+  </div>
+`);
 
-    // Add event listeners for desktop controls.
-    document.addEventListener('mousedown', handleMouseDown);
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-    document.addEventListener('mouseleave', handleMouseUp);
+// Add event listeners for desktop controls.
+document.addEventListener('mousedown', handleMouseDown);
+document.addEventListener('mousemove', handleMouseMove);
+document.addEventListener('mouseup', handleMouseUp);
+document.addEventListener('mouseleave', handleMouseUp);
 
-    // Add event listeners for mobile controls.
-    document.addEventListener('touchstart', handleTouchStart, { passive: false });
-    document.addEventListener('touchmove', handleTouchMove, { passive: false });
-    document.addEventListener('touchend', handleTouchEnd);
-    document.addEventListener('touchcancel', handleTouchEnd);
+// Add event listeners for mobile controls.
+document.addEventListener('touchstart', handleTouchStart, { passive: false });
+document.addEventListener('touchmove', handleTouchMove, { passive: false });
+document.addEventListener('touchend', handleTouchEnd);
+document.addEventListener('touchcancel', handleTouchEnd);
 
-    // Initial camera update.
-    updateCamera();
+// Initial camera update.
+updateCamera();
