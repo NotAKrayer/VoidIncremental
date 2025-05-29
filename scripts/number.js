@@ -2,7 +2,7 @@ let player = {
     number: {
         value: new Decimal(0),
         tier: new Decimal(0),
-        tierBoost: new Decimal(0),
+        tierBoost: new Decimal(0)
     }
 }
 
@@ -98,7 +98,7 @@ function tierUp() {
                     numberToLatin(player.number.tier.toString(), { la_macra: false, la_useard: false, ___showsep: false }, latinTables.latinmacron)
                     .replaceAll("<wbr/>", "")
                     )
-                ) + "nions"  + `(ℝ^${currentTier})`
+                ) + "nions"  + `(ℝ^${new Decimal(currentTier).add("1e0")})`
                 player.number.tierBoost = new Decimal(player.number.tierBoost).add("1e0") //adding boost
                 el("tierBoost").innerHTML = player.number.tierBoost.toPrecision(3) //visual
                 player.number.value = new Decimal("0e0")
@@ -122,7 +122,7 @@ function tierUp() {
 
 function gainNumber(delta_time, total_time) {
     const e = new Decimal(1)
-        .mul(player.number.tierBoost)
+        .mul(player.number.tierBoost).mul(1e34)
         .mul(delta_time / 1000)
     player.number.value = new Decimal(player.number.value).plus(e)
     el("number").innerHTML = player.number.value.toPrecision(3);
