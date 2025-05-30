@@ -14,4 +14,4 @@ function capitalizeFirst(str) {
 function cleanOutput(str) {
   // Remove any non-alphanumeric characters except spaces and hyphens
   return str.replace(/[^a-zA-Z0-9\s-]/g, "");
-}
+} 
