@@ -1,3 +1,13 @@
+let preset = {
+    number: {
+        version: 1,
+        value: new Decimal(0),
+        tier: new Decimal(0),
+        tierBoost: new Decimal(0),
+        numSys: new Decimal("5e2")
+    }
+}
+
 function replaceDecimals(obj) {
     if (obj === null || typeof obj !== 'object') return obj;
 
@@ -57,11 +67,12 @@ function loadGame() {
             .replaceAll("<wbr/>", "")
             )
             ) + "nions"  + `(ℝ^${(new Decimal(revived.number.tier)).toPrecision(3)})`
+            el("costTier").innerHTML = (revived.number.numSys).toPrecision(3)
         } else {
             el("tier").innerHTML = tierUpData[(revived.number.tier).sub("1e0")].sign
+            el("costTier").innerHTML = tierUpData[new Decimal(revived.number.tier)].cost.toPrecision(3)
         }
 
-        el("costTier").innerHTML = (revived.number.numSys).toPrecision(3)
         el("tierBoost").innerHTML = (revived.number.tierBoost).toPrecision(3)
         //
         return revived;
@@ -74,5 +85,9 @@ function loadGame() {
 
 
 window.onload = function() {
-    player = loadGame()
+    if (loadGame()) {
+        player = loadGame()
+    } else {
+        player = preset
+    }
 }
