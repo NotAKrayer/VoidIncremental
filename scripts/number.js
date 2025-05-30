@@ -1,8 +1,10 @@
 let player = {
     number: {
+        version: 1,
         value: new Decimal(0),
         tier: new Decimal(0),
-        tierBoost: new Decimal(0)
+        tierBoost: new Decimal(0),
+        numSys: new Decimal("5e2")
     }
 }
 
@@ -32,10 +34,6 @@ let tierUpData = [ //cost - bro. need  - needed tier level for stuff. sign - bro
         cost: 300,
         need: 4,
         sign: "ℂ"
-    },
-    {
-        cost: 500,
-        need: 5
     }
 ]
 
@@ -89,16 +87,16 @@ function tierUp() {
     let currentTier = player.number.tier.toNumber();
     let currentTierNext = currentTier + 1;
     if (new Decimal(player.number.tier).gte("5")) {
-        if (new Decimal(player.number.tier).gte(tierUpData[5].need)) {
-            if (new Decimal(player.number.value).gte(tierUpData[5].cost)) {
-                tierUpData[5].cost = new Decimal(tierUpData[5].cost).mul(1.5);
-                el("costTier").innerHTML = tierUpData[5].cost.toPrecision(3)
+        if (new Decimal(player.number.tier).gte(new Decimal("5e0"))) {
+            if (new Decimal(player.number.value).gte(player.number.numSys)) {
+                player.number.numSys = new Decimal(player.number.numSys).mul(1.5);
+                el("costTier").innerHTML = (player.number.numSys).toPrecision(3)
                 player.number.tier = new Decimal(player.number.tier).add("1e0") //add tier
                 el("tier").innerHTML = capitalizeFirst(cleanOutput(
                     numberToLatin(player.number.tier.toString(), { la_macra: false, la_useard: false, ___showsep: false }, latinTables.latinmacron)
                     .replaceAll("<wbr/>", "")
                     )
-                ) + "nions"  + `(ℝ^${new Decimal(currentTier).add("1e0")})`
+                ) + "nions"  + `(ℝ^${(new Decimal(currentTier).add("1e0")).toPrecision(3)})`
                 player.number.tierBoost = new Decimal(player.number.tierBoost).add("1e0") //adding boost
                 el("tierBoost").innerHTML = player.number.tierBoost.toPrecision(3) //visual
                 player.number.value = new Decimal("0e0")
@@ -108,7 +106,11 @@ function tierUp() {
     } else {
         if (new Decimal(player.number.tier).gte(tierUpData[currentTier].need)) { //check level
             if (new Decimal(player.number.value).gte(tierUpData[currentTier].cost)) { //then check cost
-                el("costTier").innerHTML = tierUpData[currentTierNext].cost.toPrecision(3)
+                if (currentTierNext != 5) {
+                    el("costTier").innerHTML = tierUpData[currentTierNext].cost.toPrecision(3)
+                } else {
+                    el("costTier").innerHTML = (player.number.numSys).toPrecision(3)
+                }
                 player.number.tier = new Decimal(player.number.tier).add("1e0") //add tier
                 el("tier").innerHTML = tierUpData[currentTier].sign //visual
                 player.number.tierBoost = new Decimal(player.number.tierBoost).add("1e0") //adding boost
@@ -140,3 +142,5 @@ setInterval(function gameLoop() {
     last_time = current_time;
     gainNumber(delta_time, total_time);
 }, 1000 / 60);
+
+
