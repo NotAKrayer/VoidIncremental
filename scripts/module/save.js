@@ -62,19 +62,20 @@ function loadGame() {
         const revived = reviveDecimals(parsed);
         //UPDATE VISIBILITY
         if (new Decimal(revived.number.tier).gte("5e0")) {
-            el("tier").innerHTML = capitalizeFirst(cleanOutput(
+            let tierName = capitalizeFirst(cleanOutput(
             numberToLatin(revived.number.tier.toString(), { la_macra: false, la_useard: false, ___showsep: false }, latinTables.latinmacron)
             .replaceAll("<wbr/>", "")
-            )
-            ) + "nions"  + `(ℝ^${(new Decimal(revived.number.tier)).toPrecision(3)})`
-            el("costTier").innerHTML = (revived.number.numSys).toPrecision(3)
+            ))
+            const maxLength = 45;
+            let displayedTierName = tierName.length > maxLength ? tierName.slice(0, maxLength - 3) + "..." : tierName;
+            el("tier").innerHTML = displayedTierName + "nions" + `(ℝ^${(revived.number.tier).toPrecision(3)})`;;
+            formatNumber("costTier", revived.number.numSys)
         } else {
             el("tier").innerHTML = tierUpData[(revived.number.tier).sub("1e0")].sign
-            el("costTier").innerHTML = tierUpData[new Decimal(revived.number.tier)].cost.toPrecision(3)
+            formatNumber("costTier", tierUpData[revived.number.tier].cost)
         }
-
-        el("tierBoost").innerHTML = (revived.number.tierBoost).toPrecision(3)
-        //
+        formatNumber("tierBoost", revived.number.tierBoost)
+        formatNumber("number", revived.number.value)
         return revived;
         
     } catch (e) {
