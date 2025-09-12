@@ -4,7 +4,7 @@ let player = {
         value: new Decimal(0),
         tier: new Decimal(0),
         tierBoost: new Decimal(0),
-        numSys: new Decimal("5e2")
+        numSys: new Decimal("5e2"),
     }
 }
 
@@ -62,7 +62,7 @@ createObject(900, 210,
     <p style="font-size: 25px; text-align: center; margin-top: 10px;" class="purplegrad";"><span id="number">0</span></p>
     </div>
     `
-); //PLEASE ADD R^3 STUFF
+); //PLEASE ADD R^3 STUFF yes my past myself i add it twin
 
 //ℕℤ // 665 50 - coords
 const homeButton = createObject(70, 50, `
@@ -136,7 +136,7 @@ function tierUp() {
 
 function gainNumber(delta_time, total_time) {
     const e = new Decimal(1)
-        .mul(player.number.tierBoost).mul(43)
+        .mul(player.number.tierBoost)
         .mul(delta_time / 1000)
     player.number.value = new Decimal(player.number.value).plus(e)
     formatNumber("number", player.number.value)

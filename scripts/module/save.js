@@ -4,7 +4,7 @@ let preset = {
         value: new Decimal(0),
         tier: new Decimal(0),
         tierBoost: new Decimal(0),
-        numSys: new Decimal("5e2")
+        numSys: new Decimal("5e2"),
     }
 }
 
@@ -52,8 +52,16 @@ function saveGame() {
     console.log("Game saved.");
 }
 
-function loadGame() {
-    const compressed = localStorage.getItem("voidinc");
+function exportB64() {
+    const cleanedData = replaceDecimals(player);
+    const stringified = JSON.stringify(cleanedData);
+    const compressed = LZString.compressToBase64(stringified);
+    return compressed
+}
+
+
+function loadGame(com) {
+    const compressed = com;
     if (!compressed) return null;
 
     try {
@@ -86,8 +94,8 @@ function loadGame() {
 
 
 window.onload = function() {
-    if (loadGame()) {
-        player = loadGame()
+    if (loadGame(localStorage.getItem("voidinc"))) {
+        player = loadGame(localStorage.getItem("voidinc"))
     } else {
         player = preset
     }

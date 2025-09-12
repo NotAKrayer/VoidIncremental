@@ -1,3 +1,7 @@
+//not mine
+
+
+
 greekTables = {
 	"greeklatin": {
 		"20only": [ "mД“deno", "mono", "di", "tri", "tetra", "penta", "hexa", "hepta", "octa", "ennea" ],

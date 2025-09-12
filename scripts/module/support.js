@@ -16,7 +16,7 @@ function cleanOutput(str) {
   return str.replace(/[^a-zA-Z0-9\s-]/g, "");
 } 
 
-let set = "exp";
+let set = "exp";    //suff - m, b, t, qa, qi //exp = 1e2 for example
 
 function formatNumber(id, number) {
   let num;
@@ -26,7 +26,11 @@ function formatNumber(id, number) {
     num = new Decimal(number);
   }
   if (set === "exp") {
-    el(id).innerHTML = num.toPrecision(3);
+    if (num.lt("1e1000")) {
+      el(id).innerHTML = num.toPrecision(3);
+    } else{
+      el(id).innerHTML = num.toString().replace(/(\.\d{3})\d+/, '$1');
+    }
   } else if (set === "suff") {
     if (num.gte("1e3")) {
       let converted = AAS(num);
@@ -36,3 +40,5 @@ function formatNumber(id, number) {
     }
   }
 }
+
+//fixing bug with aas more than 9 symbols broke :(
