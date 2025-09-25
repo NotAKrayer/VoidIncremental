@@ -96,3 +96,11 @@ body {
     height: 85px;
     width: 235px;
 }
+
+#notation {
+    border: 2px solid #3d1265;
+    background-color: black;
+    position: fixed;
+    top: 20%;
+    left: 2%;
+}

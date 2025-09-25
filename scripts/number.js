@@ -5,6 +5,9 @@ let player = {
         tier: new Decimal(0),
         tierBoost: new Decimal(0),
         numSys: new Decimal("5e2"),
+    },
+    settings: {
+        notation: "Mixed"
     }
 }
 
@@ -142,9 +145,30 @@ function gainNumber(delta_time, total_time) {
     formatNumber("number", player.number.value)
 }
 
+function updateUpgradesVisibility() {
+    let currentTier = player.number.tier;
+    let currentTierNext = (currentTier).add("1e0");
+
+    if (new Decimal(player.number.tier).gte("5")) {
+        if (new Decimal(player.number.value).gte(player.number.numSys)) {
+            el("tierUp").style.border = "3px solid #9154cbc5"
+        } else {
+            el("tierUp").style.border = "2px solid #3d1265"
+        }
+    } else {
+        if (new Decimal(player.number.value).gte(tierUpData[currentTier].cost)) {
+            el("tierUp").style.border = "3px solid #9154cbc5"
+        } else {
+            el("tierUp").style.border = "2px solid #3d1265"
+        }
+    }
+}
+
+
 let last_time = null;
 let total_time = 0;
 setInterval(function gameLoop() {
+    updateUpgradesVisibility()
     const current_time = Date.now();
     if (last_time === null) {
         last_time = current_time;
@@ -152,7 +176,6 @@ setInterval(function gameLoop() {
     const delta_time = current_time - last_time;
     total_time += delta_time;
     last_time = current_time;
-    gainNumber(delta_time, total_time);
+    gainNumber(delta_time, total_time); 
 }, 1000 / 60);
-
 

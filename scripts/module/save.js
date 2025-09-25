@@ -5,6 +5,9 @@ let preset = {
         tier: new Decimal(0),
         tierBoost: new Decimal(0),
         numSys: new Decimal("5e2"),
+    },
+    settings: {
+        notation: "Mixed"
     }
 }
 
@@ -59,6 +62,37 @@ function exportB64() {
     return compressed
 }
 
+function strictMigrate(saveObj, template) {
+    // saveObj — это plain object из JSON (без Decimal, только строки/числа/объекты)
+    // template — может содержать Decimal, функции и т.д., но мы копируем только структуру и значения по умолчанию
+
+    if (saveObj == null || typeof saveObj !== 'object') {
+        return template;
+    }
+
+    const result = {};
+    for (const key in template) {
+        const templateVal = template[key];
+        if (key in saveObj) {
+            const saveVal = saveObj[key];
+            if (
+                templateVal === null ||
+                typeof templateVal !== 'object' ||
+                templateVal instanceof Decimal
+            ) {
+                result[key] = saveVal;
+            } else if (Array.isArray(templateVal)) {
+                result[key] = Array.isArray(saveVal) ? saveVal : templateVal;
+            } else {
+                result[key] = strictMigrate(saveVal, templateVal);
+            }
+        } else {
+            result[key] = templateVal;
+        }
+    }
+    return result;
+}
+
 
 function loadGame(com) {
     const compressed = com;
@@ -67,7 +101,11 @@ function loadGame(com) {
     try {
         const decompressed = LZString.decompressFromBase64(compressed);
         const parsed = JSON.parse(decompressed);
-        const revived = reviveDecimals(parsed);
+        //
+        const migrated = strictMigrate(parsed, preset);
+        //
+        let revived = reviveDecimals(migrated);  //before - migrated was parsed
+
         //UPDATE VISIBILITY
         if (new Decimal(revived.number.tier).gte("5e0")) {
             let tierName = capitalizeFirst(cleanOutput(
@@ -76,7 +114,7 @@ function loadGame(com) {
             ))
             const maxLength = 45;
             let displayedTierName = tierName.length > maxLength ? tierName.slice(0, maxLength - 3) + "..." : tierName;
-            el("tier").innerHTML = displayedTierName + "nions" + `(ℝ^${(revived.number.tier).toPrecision(3)})`;;
+            el("tier").innerHTML = displayedTierName + "nions" + `(ℝ^${(revived.number.tier).toPrecision(3)})`;
             formatNumber("costTier", revived.number.numSys)
         } else {
             el("tier").innerHTML = tierUpData[(revived.number.tier).sub("1e0")].sign
@@ -84,6 +122,7 @@ function loadGame(com) {
         }
         formatNumber("tierBoost", revived.number.tierBoost)
         formatNumber("number", revived.number.value)
+        el("notation").innerHTML = `Notation: ${revived.settings.notation}`;
         return revived;
         
     } catch (e) {
@@ -94,9 +133,11 @@ function loadGame(com) {
 
 
 window.onload = function() {
-    if (loadGame(localStorage.getItem("voidinc"))) {
-        player = loadGame(localStorage.getItem("voidinc"))
+    const saved = localStorage.getItem("voidinc");
+    const loaded = loadGame(saved);
+    if (loaded) {
+        player = loaded;
     } else {
-        player = preset
+        player = reviveDecimals(replaceDecimals(preset));
     }
 }

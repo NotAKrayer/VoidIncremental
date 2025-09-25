@@ -16,7 +16,7 @@ function cleanOutput(str) {
   return str.replace(/[^a-zA-Z0-9\s-]/g, "");
 } 
 
-let set = "exp";    //suff - m, b, t, qa, qi //exp = 1e2 for example
+let set = "suff";    //suff - m, b, t, qa, qi //exp = 1e2 for example
 
 function formatNumber(id, number) {
   let num;
@@ -32,13 +32,20 @@ function formatNumber(id, number) {
       el(id).innerHTML = num.toString().replace(/(\.\d{3})\d+/, '$1');
     }
   } else if (set === "suff") {
-    if (num.gte("1e3")) {
-      let converted = AAS(num);
-      el(id).innerHTML = converted;
+      if (num.lt("1e1000")) {
+        if (num.gte("1e3")) {
+        let converted = AAS(num);
+        el(id).innerHTML = converted;
+      } else {
+        el(id).innerHTML = num.toPrecision(3);
+      }
     } else {
-      el(id).innerHTML = num.toPrecision(3);
+        el(id).innerHTML = num.toString().replace(/(\.\d{3})\d+/, '$1');
     }
   }
 }
 
 //fixing bug with aas more than 9 symbols broke :(
+
+//remade control on mobile +-  or something
+//setings
