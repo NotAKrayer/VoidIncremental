@@ -5,6 +5,7 @@ let preset = {
         tier: new Decimal(0),
         tierBoost: new Decimal(0),
         numSys: new Decimal("5e2"),
+        axioms: [0, 0, 0, 0, 0, 0]
     },
     settings: {
         notation: "Mixed"
@@ -123,6 +124,17 @@ function loadGame(com) {
         formatNumber("tierBoost", revived.number.tierBoost)
         formatNumber("number", revived.number.value)
         el("notation").innerHTML = `Notation: ${revived.settings.notation}`;
+
+        //axioms
+        for (let i = 0; i < 6; i++) {
+            const statusElement = document.getElementById(`axiom${i + 1}Status`);
+            if (statusElement) {
+                if (revived.number.axioms[i] === 1) {
+                    statusElement.textContent = "Purchased";
+                }
+            }
+        }
+
         return revived;
         
     } catch (e) {
