@@ -2,7 +2,8 @@ createObject(900, 895,
     `
     <div style="width: 550px; height: 250px; background-color: black; border: 1px solid white">
     <p style="font-size: 30px; text-align: left; margin: auto; margin-left: 5px;" class="purplegrad">🛠 Settings <br></p>
-    <button onclick="notationChange(this)" id="notation">Notation: Mixed</button>
+    <button onclick="saveGame()" id="saveButton">Save Game</button>
+    <button onclick="notationChange(this)" id="notation" style="margin-top: 35px">Notation: Mixed</button>
     </div>
     `
 );

@@ -13,7 +13,7 @@ let player = {
 }
 
 let otherData = {
-    axiomsCost: [new Decimal("1e2")]
+    axiomsCost: [new Decimal("1e2"), new Decimal("1e3")]
 }
 
 
@@ -60,6 +60,7 @@ createObject(350, 350,
     <div style="width: 500px; height: 200px; background-color: #000000; border: 1px solid white"; id="info1">
     <p style="font-size: 25px; text-align: center; margin: auto; color: wheat;">NUMBER</p>
     <p style="font-size: 18px; text-align: left; margin-left: 10px; color: white;">Current Boost by tier: <span id="tierBoost">0</span>x</p>
+    <p style="font-size: 18px; text-align: left; margin-left: 10px; margin-top: -15px; color: white;"><span class="purplegrad">Number</span> Gain per Second: <span id="nps">0</span></p>
     </div>
     `
 );
@@ -147,8 +148,12 @@ function gainNumber(delta_time, total_time) {
     if (player.number.axioms[0] === 1) {
         e = e.plus(1);
     }
+    if (player.number.axioms[1] === 1) {
+        e = e.mul(new Decimal(1).plus((player.number.tierBoost.sqrt(2)).divide(10)))
+    }
     e = e.mul(player.number.tierBoost)
-        .mul(delta_time / 1000)
+    formatNumber("nps", e);
+    e = e.mul(delta_time / 1000)
     player.number.value = new Decimal(player.number.value).plus(e)
     formatNumber("number", player.number.value)
 }

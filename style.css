@@ -104,3 +104,11 @@ body {
     top: 20%;
     left: 2%;
 }
+
+#saveButton {
+    border: 2px solid #3d1265;
+    background-color: black;
+    position: fixed;
+    top: 20%;
+    left: 2%;
+}

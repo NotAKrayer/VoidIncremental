@@ -6,9 +6,15 @@ createObject(1475, 500,
     `
 );
 
-createObject(1325, 400,
+createObject(1350, 400,
     `
-    <button id="axiom1StatusB" onclick="buyAxiom(0)"; style="width: 175px; height: 130px; background-color: #000000; border: 1px solid white; border: 2px solid #3d1265;" ><strong>Axiom of Empty Set</strong> <br> <i>+1 to the <span class="purplegrad">Number</span> Base Gain<br></i> <span id="axiom1Status">Cost: 100</span></button>
+    <button id="axiom1StatusB" onclick="buyAxiom(0)"; style="width: 200px; height: 130px; background-color: #000000; border: 1px solid white; border: 2px solid #3d1265;" ><strong>Axiom of Empty Set</strong> <br> <i>+1 to the <span class="purplegrad">Number</span> Base Gain<br></i> <span id="axiom1Status">Cost: 100</span></button>
+    `
+);
+
+createObject(1600, 400,
+    `
+    <button id="axiom2StatusB" onclick="buyAxiom(1)"; style="width: 200px; height: 130px; background-color: #000000; border: 1px solid white; border: 2px solid #3d1265;" ><strong>Axiom of Power Set</strong> <br> Boost <span class="purplegrad">Number</span> Gain Based on Tier Boosts<br></i> <span id="axiom2Status">Cost: 1000</span></button>
     `
 );
 
@@ -17,7 +23,7 @@ function buyAxiom(id) {
         if ((player.number.value).gte(otherData.axiomsCost[id])) {
             player.number.value = (player.number.value).minus(otherData.axiomsCost[id])
             player.number.axioms[id] = 1;
-            document.getElementById("axiom1Status").textContent = "Purchased"
+            document.getElementById(`axiom${id}Status`).textContent = "Purchased"
         } else{
             return
         }
@@ -38,3 +44,7 @@ function updateAxiomsVisibility() {
         }
     }
 }
+
+//todo list for axioms:
+//new Decimal(1).plus((player.number.tierBoost.sqrt(2)).divide(10))  <-- Axiom of Power Set
+//Boost Number Gain Based on Formula: 1 + (√(Tier Boost)/10)
