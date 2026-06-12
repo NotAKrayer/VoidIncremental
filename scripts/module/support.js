@@ -16,7 +16,7 @@ function cleanOutput(str) {
   return str.replace(/[^a-zA-Z0-9\s-]/g, "");
 } 
 
-let set = "suff";    //suff - m, b, t, qa, qi //exp = 1e2 for example
+let set = "Mixed";    //suff - m, b, t, qa, qi //exp = 1e2 for example
 
 function formatNumber(id, number) {
   let num;
@@ -25,14 +25,14 @@ function formatNumber(id, number) {
   } else {
     num = new Decimal(number);
   }
-  if (set === "exp") {
+  if (set === "Scientific") {
     if (num.lt("1e1000")) {
       el(id).innerHTML = num.toPrecision(3);
     } else{
       el(id).innerHTML = num.toString().replace(/(\.\d{3})\d+/, '$1');
     }
-  } else if (set === "suff") {
-      if (num.lt("1e1000")) {
+  } else if (set === "Mixed") {
+      if (num.lt("1e1000000000")) {
         if (num.gte("1e3")) {
         let converted = AAS(num);
         el(id).innerHTML = converted;
@@ -45,7 +45,8 @@ function formatNumber(id, number) {
   }
 }
 
-//fixing bug with aas more than 9 symbols broke :(
-
-//remade control on mobile +-  or something
-//setings
+//remade control on mobile +-  or something AND OF COUSE CAMERA AND GRID SHOULD BE FIXED WHAT THE FUCK IS THIS SO BROKEN 
+//PIECE OF FUCKING SHIT I HATE CODING THIS
+//setings - NEXT AFTER 4 AAXIOM
+//REMADE SOME TEXT
+//why did i put this here idk

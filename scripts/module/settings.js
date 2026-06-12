@@ -11,11 +11,11 @@ createObject(900, 895,
 function notationChange(button) {
     if (button.textContent === "Notation: Mixed") {
         button.textContent = "Notation: Scientific";
-        set = "exp"
+        set = "Scientific"
         player.settings.notation = "Scientific";
     } else {
         button.textContent = "Notation: Mixed";
-        set = "suff"
+        set = "Mixed"
         player.settings.notation = "Mixed";
     }
 }

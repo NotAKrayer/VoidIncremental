@@ -5,7 +5,7 @@ let player = {
         tier: new Decimal(0),
         tierBoost: new Decimal(0),
         numSys: new Decimal("5e2"),
-        axioms: [0, 0, 0, 0, 0, 0]
+        axioms: [0, 0, 0, 0]
     },
     settings: {
         notation: "Mixed"
@@ -13,7 +13,7 @@ let player = {
 }
 
 let otherData = {
-    axiomsCost: [new Decimal("1e2"), new Decimal("1e3")]
+    axiomsCost: [new Decimal("1e2"), new Decimal("1e3"), new Decimal("1.5e3")]
 }
 
 
@@ -71,7 +71,7 @@ createObject(900, 210,
     <p style="font-size: 25px; text-align: center; margin-top: 10px;" class="purplegrad";"><span id="number">0</span></p>
     </div>
     `
-); //PLEASE ADD R^3 STUFF yes my past myself i add it twin
+);
 
 //ℕℤ // 665 50 - coords
 const homeButton = createObject(70, 50, `
@@ -142,6 +142,7 @@ function tierUp() {
         }
     }
 }
+let multiForTest = new Decimal("2")
 
 function gainNumber(delta_time, total_time) {
     let e = new Decimal(1)
@@ -151,7 +152,11 @@ function gainNumber(delta_time, total_time) {
     if (player.number.axioms[1] === 1) {
         e = e.mul(new Decimal(1).plus((player.number.tierBoost.sqrt(2)).divide(10)))
     }
-    e = e.mul(player.number.tierBoost)
+    if (player.number.axioms[2] === 1) {
+        e = e.mul(player.number.tierBoost).mul(1.5)
+    } else  {
+        e = e.mul(player.number.tierBoost)
+    }
     formatNumber("nps", e);
     e = e.mul(delta_time / 1000)
     player.number.value = new Decimal(player.number.value).plus(e)
@@ -176,3 +181,7 @@ function updateUpgradesVisibility() {
         }
     }
 }
+
+/*setInterval(function() {   only for testing purposes
+    multiForTest = multiForTest.pow(1.01)
+}, 1) */ 

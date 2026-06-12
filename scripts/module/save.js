@@ -124,9 +124,10 @@ function loadGame(com) {
         formatNumber("tierBoost", revived.number.tierBoost)
         formatNumber("number", revived.number.value)
         el("notation").innerHTML = `Notation: ${revived.settings.notation}`;
+        set = revived.settings.notation
 
         //axioms
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; i < 4; i++) {
             const statusElement = document.getElementById(`axiom${i + 1}Status`);
             if (statusElement) {
                 if (revived.number.axioms[i] === 1) {
