@@ -64,9 +64,6 @@ function exportB64() {
 }
 
 function strictMigrate(saveObj, template) {
-    // saveObj — это plain object из JSON (без Decimal, только строки/числа/объекты)
-    // template — может содержать Decimal, функции и т.д., но мы копируем только структуру и значения по умолчанию
-
     if (saveObj == null || typeof saveObj !== 'object') {
         return template;
     }
@@ -150,7 +147,9 @@ window.onload = function() {
     const loaded = loadGame(saved);
     if (loaded) {
         player = loaded;
+        updateTemp();
     } else {
         player = reviveDecimals(replaceDecimals(preset));
+        updateTemp();
     }
 }

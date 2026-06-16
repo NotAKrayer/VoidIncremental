@@ -1,51 +1,3 @@
-let player = {
-    number: {
-        version: 1,
-        value: new Decimal(0),
-        tier: new Decimal(0),
-        tierBoost: new Decimal(0),
-        numSys: new Decimal("5e2"),
-        axioms: [0, 0, 0, 0]
-    },
-    settings: {
-        notation: "Mixed"
-    }
-}
-
-let otherData = {
-    axiomsCost: [new Decimal("1e2"), new Decimal("1e3"), new Decimal("1.5e3")]
-}
-
-
-let tierUpData = [ //cost - bro. need  - needed tier level for stuff. sign - bro...//
-    {
-        cost: new Decimal(0),
-        need: 0,
-        sign: "ℕ"
-    },
-    {
-        cost: new Decimal(15),
-        need: 1,
-        sign: "ℤ"
-    },
-    {
-        cost: new Decimal(50),
-        need: 2,
-        sign: "ℚ"
-    },
-    {
-        cost: new Decimal(150),
-        need: 3,
-        sign: "ℝ"
-    },
-    {
-        cost: new Decimal(300),
-        need: 4,
-        sign: "ℂ"
-    }
-]
-
-
 createObject(900, 500,
     `
     <div style="width: 550px; height: 500px; background-color: #000000; border: 1px solid white";>
@@ -144,41 +96,20 @@ function tierUp() {
 }
 let multiForTest = new Decimal("2")
 
-function gainNumber(delta_time, total_time) {
-    let e = new Decimal(1)
-    if (player.number.axioms[0] === 1) {
-        e = e.plus(1);
-    }
-    if (player.number.axioms[1] === 1) {
-        e = e.mul(new Decimal(1).plus((player.number.tierBoost.sqrt(2)).divide(10)))
-    }
-    if (player.number.axioms[2] === 1) {
-        e = e.mul(player.number.tierBoost).mul(1.5)
-    } else  {
-        e = e.mul(player.number.tierBoost)
-    }
-    formatNumber("nps", e);
-    e = e.mul(delta_time / 1000)
-    player.number.value = new Decimal(player.number.value).plus(e)
-    formatNumber("number", player.number.value)
+function gainNumber(delta_time) {
+    let gain = temp.number.nps;
+    formatNumber("nps", gain);
+    gain = gain.mul(delta_time / 1000);
+    player.number.value = player.number.value.plus(gain);
+    formatNumber("number", player.number.value);
 }
 
 function updateUpgradesVisibility() {
-    let currentTier = player.number.tier;
-    let currentTierNext = (currentTier).add("1e0");
-
-    if (new Decimal(player.number.tier).gte("5")) {
-        if (new Decimal(player.number.value).gte(player.number.numSys)) {
-            el("tierUp").style.border = "3px solid #9154cbc5"
-        } else {
-            el("tierUp").style.border = "2px solid #3d1265"
-        }
+    const tierUpBtn = el("tierUp");
+    if (temp.number.canTierUp) {
+        tierUpBtn.style.border = "3px solid #9154cbc5";
     } else {
-        if (new Decimal(player.number.value).gte(tierUpData[currentTier].cost)) {
-            el("tierUp").style.border = "3px solid #9154cbc5"
-        } else {
-            el("tierUp").style.border = "2px solid #3d1265"
-        }
+        tierUpBtn.style.border = "2px solid #3d1265";
     }
 }
 

@@ -42,10 +42,10 @@ function updateAxiomsVisibility() {
     for (let i = 0; i < 4; i++) {
         const statusElement = document.getElementById(`axiom${i + 1}StatusB`);
         if (statusElement) {
-            if ((player.number.value).gte(otherData.axiomsCost[i]) && (player.number.axioms[i] == 0)) {
+            if (player.number.axioms[i] == 0 && temp.number.value.gte(otherData.axiomsCost[i])) {
                 statusElement.style.border = "3px solid #9154cbc5";
-            }  else {
-                statusElement.style.border = "2px solid #3d1265"
+            } else {
+                statusElement.style.border = "2px solid #3d1265";
             }
         }
     }
